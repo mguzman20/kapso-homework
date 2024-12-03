@@ -1,14 +1,19 @@
 # Tarea Kapso
 
-Iniciar sesión con:
+### Iniciar sesión con:
 
 user@example.com
 Pasword: example
 
-Luego se puede crear un entrenamiento en la ruta /protected/new
+### Que logre Hacer
 
-se visualizan los entrenamientos en /protected
+- Ver entrenamientos pasados (/protected)
+- Form para crear entrenamientos y series, utilizando validaciones y supabase para almacenar la informacion. (protected/new)
+- Ver mas información de un entrenamiento (/protected/:id)
+- Landing page es un template mio
+- Registro e inicio de sesion esta hecho con supabase.
 
-Y se puede ver mas de un entrenamiento en /protected/:id
+### Que no logre
 
-No logre hacer una seccion de estadisticas por temas de tiempo
+- Mostrar estadisticas sobre entrenamiento
+- Y buscar ejercicios con api publica
