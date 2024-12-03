@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
-
+  
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -15,31 +15,49 @@ export default async function ProtectedPage() {
     return redirect('/sign-in');
   }
 
+  const { data: trainings, error } = await supabase
+  .from('trainings')
+  .select('*');
+
+  if (error || !trainings) {
+    console.log(error)
+  }
+
   return (
     <div className="flex w-full flex-1 flex-col gap-12">
-      <div className="w-full">
-        <div className="flex items-center gap-3 rounded-md bg-accent p-3 px-5 text-sm text-foreground">
-          <InfoIcon size="16" strokeWidth={2} />
-          This is a protected page that you can only see as an authenticated user
-        </div>
-        <div className="my-4 flex items-center gap-3 rounded-md bg-accent p-3 px-5 text-sm text-foreground">
-          <InfoIcon size="16" strokeWidth={2} />
-          Go to supabase and create a table called &quot;notes&quot; with the following columns: id,
-          user_id, title, body
-        </div>
-      </div>
-      <Button size="sm" variant="default">
-        <Link href={'/notes'}>Go to notes (server)</Link>
+      <Button>
+        <Link href="/protected/new">
+          Crear nuevo entrenamiento
+        </Link>
       </Button>
-      <Button size="sm" variant="outline">
-        <Link href={'/notes-client'}>Go to notes (client)</Link>
-      </Button>
-      <div className="flex flex-col items-start gap-2">
-        <h2 className="mb-4 text-2xl font-bold">Your user details</h2>
-        <pre className="max-h-32 overflow-auto rounded border p-3 font-mono text-xs">
-          {JSON.stringify(user, null, 2)}
-        </pre>
-      </div>
+      <table className="min-w-full border-collapse border border-gray-200">
+        <thead>
+          <tr className='bg-background'>
+            <th className="border border-gray-300 px-4 py-2 text-left">ID</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Nombre</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Creado</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Ver Más</th>
+          </tr>
+        </thead>
+        <tbody>
+          {trainings.map((training) => (
+            <tr key={training.id}>
+              <td className="border border-gray-300 px-4 py-2">{training.id}</td>
+              <td className="border border-gray-300 px-4 py-2">{training.name}</td>
+              <td className="border border-gray-300 px-4 py-2">
+                {new Date(training.created_at).toLocaleDateString()}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                <Button>
+                  <Link href={`/protected/${training.id}`}>
+                    Ver
+                  </Link>
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

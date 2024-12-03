@@ -16,7 +16,7 @@ export function Navbar() {
       <div className="flex w-full max-w-5xl items-center justify-between p-3 px-5 text-sm">
         <div className="flex items-center gap-5 font-semibold">
           <Link href={'/'} className="text-lg">
-            Example
+            Kapso
           </Link>
         </div>
         <NavigationMenu>
