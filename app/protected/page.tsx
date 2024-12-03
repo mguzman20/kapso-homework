@@ -19,8 +19,9 @@ export default async function ProtectedPage() {
   .from('trainings')
   .select('*');
 
-  if (error || !trainings) {
+  if (error || trainings == null) {
     console.log(error)
+    return <div>Error loading trainings</div>
   }
 
   return (
